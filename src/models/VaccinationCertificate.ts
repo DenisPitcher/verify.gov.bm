@@ -7,15 +7,6 @@ export class VaccinationCertificate {
     Gender?: string;
     ReservationId?: number;
     Doses?: VaccinationDose[];
-   
-    // constructor(lastName: string, firstName: string, dateOfBirth: Date, gender: string, reservationId: number, doses: VaccinationDose[]) {
-    //     this.LastName = lastName;
-    //     this.FirstName = firstName;
-    //     this.DateOfBirth = dateOfBirth;
-    //     this.Gender = gender;
-    //     this.ReservationId = reservationId;
-    //     this.Doses = doses;
-    // }
 }
 export default VaccinationCertificate;
 

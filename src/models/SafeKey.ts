@@ -1,8 +1,8 @@
-export class CovidPass {
+export class SafeKey {
    
     ExpiryDate?: Date;
     Initials?: string;
     BirthMonthDay?: string;
 }
 
-export default CovidPass;
+export default SafeKey;

@@ -9,7 +9,7 @@
           alt="Bermuda Coat Of Arms"
           class="shrink mr-2"
           contain
-          src="https://images.resqwest.com/coat_of_arms_of_Bermuda_tiny.png"
+          src="@/assets/logo.png"
           transition="scale-transition"
           width="30"
         />

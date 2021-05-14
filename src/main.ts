@@ -5,6 +5,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import moment from 'vue-moment'
+import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 
 Vue.config.productionTip = false
 Vue.use(moment);

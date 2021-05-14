@@ -237,7 +237,7 @@ export default class PCF  {
         }
     }
 
-    private getKeyId =  (pubkeyLink: string) => {
+    public getKeyId = (pubkeyLink: string) => {
         // Download pubkey to verify
         if (this.localPubKeyDB[pubkeyLink]) {
             return this.localPubKeyDB[pubkeyLink];
