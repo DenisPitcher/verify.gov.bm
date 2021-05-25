@@ -198,8 +198,8 @@ export default class Home extends Vue {
             }
             case 'BM.VAX.1': {
               this.verifyVersion = 'VACCINATION CERTIFICATE'
-              this.vax.LastName = fields[0];
-              this.vax.FirstName = fields[1];
+              this.vax.LastName = fields[1];
+              this.vax.FirstName = fields[0];
               year = parseInt(fields[2].substring(0,4));
               month = parseInt(fields[2].substring(4,6));
               day = parseInt(fields[2].substring(6,8));
