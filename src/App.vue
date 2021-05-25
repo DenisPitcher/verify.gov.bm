@@ -22,18 +22,24 @@
 
     <v-main>
       <router-view/>
+      
     </v-main>
+    <v-footer>
+      Version: {{ appVersion }}
+    </v-footer>
+
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import packageJson from '../package.json';
 
 export default Vue.extend({
   name: 'App',
 
   data: () => ({
-    //
+    appVersion: packageJson.version
   }),
 });
 </script>

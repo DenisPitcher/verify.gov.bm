@@ -106,7 +106,6 @@ import VaccinationCertificate from '@/models/VaccinationCertificate';
 import VaccinationDose from '@/models/VaccinationDose';
 import PCRTestCertificate from '@/models/PCRTestCertificate';
 
-
 @Component({
   components: {
     QrcodeStream,
@@ -126,7 +125,6 @@ export default class Home extends Vue {
 
   constructor() {
     super()
-    this.pcf.getKeyId("KEYS.GOV.BM"); // preload key
   }
 
   public onDecode(result: string): void {
@@ -167,11 +165,12 @@ export default class Home extends Vue {
 
           if (pubKeyLink === "KEYS.GOV.BM" || process.env.NODE_ENV === 'development')
           {
-            this.result = this.pcf.downloadKeyVerify(pubKeyLink, payload, signatureBase32NoPad);    
+            this.result = this.pcf.verify(payload, signatureBase32NoPad);    
           }
           else{
             console.log('Environment: ' + process.env.NODE_ENV + ', pubKeyLink: ' + pubKeyLink + ' not supported');
             this.result = false;
+            return;
           }
           
           const fields = this.pcf.parsePayload(payload);
@@ -189,7 +188,9 @@ export default class Home extends Vue {
               this.pass.ExpiryDate = new Date(year, month-1, day);
               this.pass.Initials = fields[1];
               this.pass.BirthMonthDay = fields[2];
-              if (this.pass.ExpiryDate < new Date())
+              var dateCheck = new Date();
+              dateCheck.setHours(0,0,0,0);
+              if (dateCheck > this.pass.ExpiryDate)
               {
                 this.result = false;
               }

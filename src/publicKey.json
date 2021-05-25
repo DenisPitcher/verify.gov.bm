@@ -1,0 +1,5 @@
+{
+    "type": "LocalFile",
+    "key": "-----BEGIN PUBLIC KEY-----\nMFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEpGJhZ8JMoStmgLgPyN5C+z2UsAiqlRXb\nfyFtERNTkww/SLb/ggwmNjV7/mUzaNQcgEKwdJ2Eu5dixGy+CY1aKA==\n-----END PUBLIC KEY-----\n",
+    "debugPath": "./publicKey.json"
+}
