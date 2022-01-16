@@ -7,3 +7,8 @@ if (workbox) {
 else {
     console.log(`Workbox didn't load`);
 }
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+        self.skipWaiting()
+    }
+})

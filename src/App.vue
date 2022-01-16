@@ -22,7 +22,12 @@
 
     <v-main>
       <router-view/>
-      
+      <v-snackbar bottom right :value="updateExists" :timeout="0" color="primary">
+        An update is available
+        <v-btn text @click="refreshApp">
+          Update
+        </v-btn>
+      </v-snackbar>
     </v-main>
     <v-footer>
       Version: {{ appVersion }}
@@ -34,6 +39,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import packageJson from '../package.json';
+import update from './mixins/update';
 
 export default Vue.extend({
   name: 'App',
@@ -41,5 +47,6 @@ export default Vue.extend({
   data: () => ({
     appVersion: packageJson.version
   }),
+  mixins:[update]
 });
 </script>

@@ -3,6 +3,8 @@ import sha256 from 'crypto-js/sha256';
 import * as base32 from 'hi-base32';
 import elliptic from 'elliptic';
 import publicKey from '../publicKey.json';
+import safeKeyPublicKey from '../safeKeyPublicKey.json';
+import debugPublicKey from '../debugPublicKey.json';
 
 interface ICurve {
   curveCode: string;
@@ -50,9 +52,20 @@ export default class PCF  {
         return base32Str;
     }
 
-    public verify(payload: string, signatureBase32NoPad: string): boolean {
+    public verifyCertificate(payload: string, signatureBase32NoPad: string): boolean {
+        return this.verify(payload, signatureBase32NoPad, publicKey.key);
+    }
+
+    public verifySafeKey(payload: string, signatureBase32NoPad: string): boolean {
+        return this.verify(payload, signatureBase32NoPad, safeKeyPublicKey.key);
+    }
+    public verifyDebug(payload: string, signatureBase32NoPad: string): boolean {
+        return this.verify(payload, signatureBase32NoPad, debugPublicKey.key);
+    }
+
+    private verify(payload: string, signatureBase32NoPad: string, publicKey: string): boolean {
         // Decoding the public key to get curve algorithm + key itself
-        const pubk = this.ECPublicKey.decode(publicKey.key, 'pem', {label: 'PUBLIC KEY'});
+        const pubk = this.ECPublicKey.decode(publicKey, 'pem', {label: 'PUBLIC KEY'});
 
         // Get Encryption Algorithm: EC
         const algoCode = pubk.algorithm.id.join('.');

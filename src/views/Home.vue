@@ -51,22 +51,56 @@
           </v-card-title>
         </template>
         <v-divider></v-divider>
-        <v-card-text v-if="typeVersion == 'BM.KEY.1'">
-          <p><b>Initials:</b> {{ pass.Initials }}</p>
-          <p><b>Birth Day:</b> {{ pass.BirthMonthDay }}</p>
-          <p><b>Expiry Date:</b> {{ pass.ExpiryDate  | moment("dddd, MMMM Do YYYY") }}</p>
-        </v-card-text>
+        <v-list-item v-if="typeVersion == 'BM.KEY.1'">
+          <v-list-item-content>
+            <p><b>Initials:</b> {{ pass.Initials }}</p>
+            <p><b>Birth Day:</b> {{ pass.BirthMonthDay }}</p>
+            <p><b>Expiry Date:</b> {{ pass.ExpiryDate  | moment("dddd, MMMM Do YYYY") }}</p>
+          </v-list-item-content>
+          <v-list-item-avatar 
+              width="155"
+              height="98"
+            >
+              <v-img
+                alt="Bermuda Safe Key"
+                src="@/assets/safeKey.png"
+              />
+            </v-list-item-avatar>
+        </v-list-item>
+        
         <v-card-text v-if="typeVersion == 'BM.VAX.1'">
-          <p><b>LastName:</b> {{ vax.LastName }}</p>
-          <p><b>FirstName:</b> {{ vax.FirstName }}</p>
-          <p><b>Gender:</b> {{ vax.Gender }}</p>
-          <p><b>Confirmation Id:</b> {{ vax.ReservationId }}</p>
-          <p><b>Dose 1 Manufacturer:</b> {{ vax.Doses[0].Manufacturer }}</p>
-          <p><b>Dose 1 LotNumber:</b> {{ vax.Doses[0].LotNumber }}</p>
-          <p><b>Dose 1 Date:</b> {{ vax.Doses[0].Date | moment("dddd, MMMM Do YYYY") }}</p>
-          <p><b>Dose 2 Manufacturer:</b> {{ vax.Doses[1].Manufacturer }}</p>
-          <p><b>Dose 2 LotNumber:</b> {{ vax.Doses[1].LotNumber }}</p>
-          <p><b>Dose 2 Date:</b> {{ vax.Doses[1].Date | moment("dddd, MMMM Do YYYY") }}</p>
+          <b>LastName:</b> {{ vax.LastName }}<br/>
+          <b>FirstName:</b> {{ vax.FirstName }}<br/>
+          <b>Patient #:</b> {{ vax.ReservationId }}<br/>
+          <b>Gender:</b> {{ vax.Gender }}<br/>
+          <b>Doses:</b><br/>
+          <v-container class="ma-2">
+            <v-row>
+              <v-col class="ma-0 pa-0 col-3">
+                <b>Type:</b>
+              </v-col>
+              <v-col class="ma-0 pa-0 col-3">
+                <b>Lot #:</b>
+              </v-col>
+              <v-col class="ma-0 pa-0 col-6">
+                <b>Date:</b>
+              </v-col>
+            </v-row>
+            <v-row 
+              v-for="item in vax.Doses"
+              :key="item.Num"
+              >
+              <v-col class="ma-0 pa-0 col-3">
+                {{ item.Manufacturer }}
+              </v-col>
+              <v-col class="ma-0 pa-0 col-3">
+                {{ item.LotNumber }}
+              </v-col>
+              <v-col class="ma-0 pa-0 col-6">
+                {{ item.Date | moment("MMMM Do YYYY") }}
+              </v-col>
+            </v-row>
+          </v-container>
         </v-card-text>
         <v-card-text v-if="typeVersion == 'BM.PCR.1'">
           <p><b>LastName:</b> {{ pcr.LastName }}</p>
@@ -80,6 +114,35 @@
           <p><b>Test Type:</b> {{ pcr.TestType }}</p>
           <p><b>Result:</b> {{ pcr.Result }}</p>
         </v-card-text>
+        <v-card-text v-if="typeVersion == 'BM.ANTIGEN.1'">
+          <p><b>LastName:</b> {{ antigen.LastName }}</p>
+          <p><b>FirstName:</b> {{ antigen.FirstName }}</p>
+          <p><b>MiddleName:</b> {{ antigen.MiddleName }}</p>
+          <p><b>Gender:</b> {{ antigen.Gender }}</p>
+          <p><b>Unique Id:</b> {{ antigen.UniqueId }}</p>
+          <p><b>Confirmation Number:</b> {{ antigen.ConfirmationNumber }}</p>
+          <p><b>Sample Received Date:</b> {{ antigen.SampleReceivedDate | moment("dddd, MMMM Do YYYY") }}</p>
+          <p><b>Result Received Date:</b> {{ antigen.ResultReceivedDate | moment("dddd, MMMM Do YYYY") }}</p>
+          <p><b>Test Type:</b> {{ antigen.TestType }}</p>
+          <p><b>Result:</b> {{ antigen.Result }}</p>
+        </v-card-text>
+        <v-list-item v-if="typeVersion == 'BM.CONTACTKEY.1'">
+          <v-list-item-content >
+          <p><b>Initials:</b> {{ contact.Initials }}</p>
+          <p><b>Birth Day:</b> {{ contact.BirthMonthDay }}</p>
+          <p><b>Expiry Date:</b> {{ contact.ExpiryDate  | moment("dddd, MMMM Do YYYY") }}</p>
+          <p><b>Unique Id:</b> {{ contact.UniqueId }}</p>
+          </v-list-item-content>
+          <v-list-item-avatar 
+              width="155"
+              height="98"
+            >
+              <v-img
+                alt="Bermuda Safe Key"
+                src="@/assets/safeKey.png"
+              />
+            </v-list-item-avatar>
+        </v-list-item>
         <v-card-actions>
           <v-btn 
             class="ma-2"
@@ -105,6 +168,8 @@ import SafeKey from '@/models/SafeKey';
 import VaccinationCertificate from '@/models/VaccinationCertificate';
 import VaccinationDose from '@/models/VaccinationDose';
 import PCRTestCertificate from '@/models/PCRTestCertificate';
+import AntigenTestCertificate from '@/models/AntigenTestCertificate';
+import ContactKey from '@/models/ContactKey';
 
 @Component({
   components: {
@@ -121,6 +186,8 @@ export default class Home extends Vue {
   private pass: SafeKey = new SafeKey();
   private vax: VaccinationCertificate = new VaccinationCertificate();
   private pcr: PCRTestCertificate = new PCRTestCertificate();
+  private antigen: AntigenTestCertificate = new AntigenTestCertificate();
+  private contact: ContactKey = new ContactKey();
   private pcf = new PCF();
 
   constructor() {
@@ -162,10 +229,18 @@ export default class Home extends Vue {
           let uri = data.substring(data.indexOf("CRED:"));
       
           const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = this.pcf.parseURI(uri); 
+          this.typeVersion = type + '.' + version;
 
-          if (pubKeyLink === "KEYS.GOV.BM" || process.env.NODE_ENV === 'development')
+          if (process.env.NODE_ENV === 'development')
           {
-            this.result = this.pcf.verify(payload, signatureBase32NoPad);    
+            this.result = this.pcf.verifyDebug(payload, signatureBase32NoPad);
+          }
+          else if (pubKeyLink === "KEYS.GOV.BM")
+          {
+            this.result = this.pcf.verifyCertificate(payload, signatureBase32NoPad);
+            if (this.result === false && this.typeVersion == 'BM.KEY.1'){
+              this.result = this.pcf.verifySafeKey(payload, signatureBase32NoPad);
+            }
           }
           else{
             console.log('Environment: ' + process.env.NODE_ENV + ', pubKeyLink: ' + pubKeyLink + ' not supported');
@@ -174,7 +249,7 @@ export default class Home extends Vue {
           }
           
           const fields = this.pcf.parsePayload(payload);
-          this.typeVersion = type + '.' + version;
+          
 
           var year;
           var month;
@@ -198,8 +273,8 @@ export default class Home extends Vue {
             }
             case 'BM.VAX.1': {
               this.verifyVersion = 'VACCINATION CERTIFICATE'
-              this.vax.LastName = fields[1];
               this.vax.FirstName = fields[0];
+              this.vax.LastName = fields[1];
               year = parseInt(fields[2].substring(0,4));
               month = parseInt(fields[2].substring(4,6));
               day = parseInt(fields[2].substring(6,8));
@@ -210,11 +285,18 @@ export default class Home extends Vue {
               year = parseInt(fields[7].substring(0,4));
               month = parseInt(fields[7].substring(4,6));
               day = parseInt(fields[7].substring(6,8));
-              doses.push(new VaccinationDose(fields[5], fields[6], new Date(year, month-1, day)));
+              doses.push(new VaccinationDose(1, fields[5], fields[6], new Date(year, month-1, day)));
               year = parseInt(fields[10].substring(0,4));
               month = parseInt(fields[10].substring(4,6));
               day = parseInt(fields[10].substring(6,8));
-              doses.push(new VaccinationDose(fields[8], fields[9], new Date(year, month-1, day)));
+              doses.push(new VaccinationDose(2, fields[8], fields[9], new Date(year, month-1, day)));
+              if (fields.length > 10 && fields[11] !== "")
+              {
+                year = parseInt(fields[13].substring(0,4));
+                month = parseInt(fields[13].substring(4,6));
+                day = parseInt(fields[13].substring(6,8));
+                doses.push(new VaccinationDose(3, fields[11], fields[12], new Date(year, month-1, day)));
+              }
               this.vax.Doses = doses;
               break;
             }
@@ -240,6 +322,47 @@ export default class Home extends Vue {
               this.pcr.ResultReceivedDate = new Date(year, month-1, day);
               this.pcr.TestType = fields[9];
               this.pcr.Result = fields[10];
+              break;
+            }
+            case 'BM.ANTIGEN.1': {
+              this.verifyVersion = "ANTIGEN TEST CERTIFICATE"
+              this.antigen.LastName = fields[0];
+              this.antigen.FirstName = fields[1];
+              this.antigen.MiddleName = fields[2];
+              year = parseInt(fields[3].substring(0,4));
+              month = parseInt(fields[3].substring(4,6));
+              day = parseInt(fields[3].substring(6,8));
+              this.antigen.DateOfBirth = new Date(year, month-1, day);
+              this.antigen.Gender = fields[4];
+              this.antigen.UniqueId = parseInt(fields[5]);
+              this.antigen.ConfirmationNumber = parseInt(fields[6]);
+              year = parseInt(fields[7].substring(0,4));
+              month = parseInt(fields[7].substring(4,6));
+              day = parseInt(fields[7].substring(6,8));
+              this.antigen.SampleReceivedDate = new Date(year, month-1, day);
+              year = parseInt(fields[8].substring(0,4));
+              month = parseInt(fields[8].substring(4,6));
+              day = parseInt(fields[8].substring(6,8));
+              this.antigen.ResultReceivedDate = new Date(year, month-1, day);
+              this.antigen.TestType = fields[9];
+              this.antigen.Result = fields[10];
+              break;
+            }
+            case 'BM.CONTACTKEY.1': {
+              this.verifyVersion = 'CONTACT TRACING KEY'
+              year = parseInt(fields[0].substring(0,4));
+              month = parseInt(fields[0].substring(4,6));
+              day = parseInt(fields[0].substring(6,8));
+              this.contact.ExpiryDate = new Date(year, month-1, day);
+              this.contact.Initials = fields[1];
+              this.contact.BirthMonthDay = fields[2];
+              this.contact.UniqueId = fields[3];
+              var contactDateCheck = new Date();
+              contactDateCheck.setHours(0,0,0,0);
+              if (contactDateCheck > this.contact.ExpiryDate)
+              {
+                this.result = false;
+              }
               break;
             }
           }
